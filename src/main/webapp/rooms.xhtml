@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head/>
+<h:body>
+    <h2>Members reserved in #{membersForRoom.room.name} room:</h2>
+    <ol>
+        <ui:repeat value="#{membersForRoom.room.members}" var="member">
+            <li>
+                <h:link value="#{member.name}" outcome="playerDetails?playerId=#{member.id}" />
+            </li>
+        </ui:repeat>
+    </ol>
+
+    <h:form>
+        <h:selectOneMenu value="#{membersForRoom.selectedID}">
+            <f:selectItems value="#{membersForRoom.allMembers}" var="c"
+                           itemLabel="#{c.name}" itemValue="#{c.id}"/>
+        </h:selectOneMenu>
+        <h:commandButton value="Add member to the room"
+                         actionListener="#{membersForRoom.addMember()}"
+                         action="#{'rooms?faces-redirect=true&amp;roomId='.concat(membersForRoom.room.id)}">
+            <f:param name="roomId" value="#{membersForRoom.room.id}" />
+        </h:commandButton>
+    </h:form>
+    <h:link outcome="index" value="Back to teams page"/>
+</h:body>
+</html>
